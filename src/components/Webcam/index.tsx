@@ -1,6 +1,7 @@
 import { useRef, useState, useCallback } from "react";
 import Webcam from "react-webcam";
 import * as S from "./style";
+import Image from "next/image";
 const videoConstraints = {
   width: 1520,
   height: 860,
@@ -31,22 +32,29 @@ const WebcamComponent = () => {
             videoConstraints={videoConstraints}
           />
         </div>
-        <button onClick={capture}>capture</button>
+        <S.Button onClick={capture}>사진 찍기</S.Button>
       </>
       {url && (
         <>
           <div>
-            <button
+            <S.Button
               onClick={() => {
                 setUrl(null);
               }}
             >
-              delete
-            </button>
+              다시 찍기
+            </S.Button>
+            <S.Button
+              onClick={() => {
+                setUrl(null);
+              }}
+            >
+              다음
+            </S.Button>
           </div>
-          <div>
-            <img src={url} alt="Screenshot" />
-          </div>
+          <S.CaptureImg>
+            <Image width={200} height={100} src={url} alt="Screenshot" />
+          </S.CaptureImg>
         </>
       )}
     </S.WebcamComponent>
