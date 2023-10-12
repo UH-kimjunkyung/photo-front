@@ -1,15 +1,17 @@
 "use client";
 
 import styled from "@emotion/styled";
-import { KeywordForm } from "components";
+import { FrameTemplate } from "components";
 
-export default function Home() {
+const Frame = () => {
   return (
     <Container>
-      <KeywordForm />
+      <FrameTemplate />
     </Container>
   );
-}
+};
+
+export default Frame;
 
 const Container = styled.div`
   width: 100vw;
@@ -21,6 +23,4 @@ const Container = styled.div`
 
   background-color: #f5f5f5;
   font-family: Pretendard;
-
-  border-radius: 12px;
 `;

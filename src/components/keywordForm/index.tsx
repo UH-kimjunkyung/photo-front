@@ -5,176 +5,162 @@ import { getApikey } from "apis/getApikey";
 import useStore from "Stores/StoresContainer";
 
 const KeywordForm = () => {
+  const { gptresData, setGptresData } = useStore();
+  const [keyword, setKeyword] = useState("");
 
-    const { gptresData, setGptresData } = useStore();
-    const [keyword, setKeyword] = useState("");
+  const getGPTres = async () => {
+    const Token = await getApikey();
+    console.log(Token);
 
-    const getGPTres = async () => {
+    try {
+      const url = "https://api.openai.com/v1/chat/completions";
 
-        const Token = await getApikey();
-        console.log(Token)
-
-        try {
-          const url = 'https://api.openai.com/v1/chat/completions';
-    
-          const requestBody = {
-            model: "gpt-3.5-turbo",
-            messages: [
-              { role: 'system', content: 'You are a helpful assistant.' },
-              { role: 'user', content: `${keyword} 사진을 찍을건데 재밌거나 예쁜 포즈 4가지 추천해줘 설명하지 말고 그냥 단어만 4개 알려줘 설명 덧붙이지마 번호도쓰지마 쉼표로 구분해서 답해줘` },
-            ],
-          };
-    
-          const headers = {
-            Authorization: `Bearer ${Token}`,
-            'Content-Type': 'application/json',
-          };
-    
-          const response = await axios.post(url, requestBody, { headers });
-          const gptresTextArray = response.data.choices[0].message.content.split("\n");
-
-        setGptresData(gptresTextArray);
-        console.log(gptresData)
-
-        } catch (error) {
-          console.error('Error:', error);
-        }
+      const requestBody = {
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: "You are a helpful assistant." },
+          {
+            role: "user",
+            content: `${keyword} 사진을 찍을건데 재밌거나 예쁜 포즈 4가지 추천해줘 설명하지 말고 그냥 단어만 4개 알려줘 설명 덧붙이지마 번호도쓰지마 쉼표로 구분해서 답해줘`,
+          },
+        ],
       };
 
-    return (
-        <Container>
-            <InputForm>
-                <TitleContainer>
-                    <Title>키워드 입력</Title>
-                    <SubTitle>키워드를 입력해 주세요.</SubTitle>
-                </TitleContainer>
-                <InputContainer>
-                    <InputLabel>키워드</InputLabel>
-                    <StyledInput onChange={(e:React.ChangeEvent<HTMLInputElement>)=> {
-                        setKeyword(e.target.value);
-                    }} />
-                </InputContainer>
-                <InputContainer>
-                    <InputLabel>추천 키워드</InputLabel>
-                    <TagContainer>
-                    {Array.from(["둘이서", "셋이서", "짱구네컷", "스폰지밥"]).map((e)=> {
-                        return <Tag key={e}>{e}</Tag>
-                    })}
-                    </TagContainer>
-                </InputContainer> 
-                <SubmitBtn onClick={getGPTres}>확인</SubmitBtn>
-            </InputForm>
-        </Container>
-    );
+      const headers = {
+        Authorization: `Bearer ${Token}`,
+        "Content-Type": "application/json",
+      };
+
+      const response = await axios.post(url, requestBody, { headers });
+      const gptresTextArray =
+        response.data.choices[0].message.content.split("\n");
+
+      setGptresData(gptresTextArray);
+      console.log(gptresData);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  return (
+    <Container>
+      <TitleContainer>
+        <Title>키워드 입력</Title>
+        <SubTitle>키워드를 입력해 주세요.</SubTitle>
+      </TitleContainer>
+      <InputContainer>
+        <InputLabel>키워드</InputLabel>
+        <StyledInput
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            setKeyword(e.target.value);
+          }}
+        />
+      </InputContainer>
+      <InputContainer>
+        <InputLabel>추천 키워드</InputLabel>
+        <TagContainer>
+          {Array.from(["둘이서", "셋이서", "짱구네컷", "스폰지밥"]).map((e) => {
+            return <Tag key={e}>{e}</Tag>;
+          })}
+        </TagContainer>
+      </InputContainer>
+      <SubmitBtn onClick={getGPTres}>확인</SubmitBtn>
+    </Container>
+  );
 };
 
 export default KeywordForm;
 
 const Container = styled.div`
-    width: 100vw;
-    height: 100vh;
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  background-color: white;
+  padding: 32px;
+  gap: 24px;
+  border-radius: 12px;
 
-    background-color: #F5F5F5;
-    font-family: Pretendard;
-
-    border-radius: 12px;
-`;
-
-const InputForm = styled.div`
-
-    display: flex;
-    flex-direction: column;
-
-    background-color: white;
-    padding: 32px;
-    gap: 24px;
-    border-radius: 12px;
-
-    box-shadow: 0 4px 30px 0 rgba(112, 144, 176, 0.08);
+  box-shadow: 0 4px 30px 0 rgba(112, 144, 176, 0.08);
 `;
 
 const TitleContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const Title = styled.div`
-    text-align: left;
+  text-align: left;
 
-    font-weight: 800;
-    font-size: 24px;
-    color: #191919;
+  font-weight: 800;
+  font-size: 24px;
+  color: #191919;
 `;
 
 const SubTitle = styled.div`
-    color: #999999;
+  color: #999999;
 `;
 
 const InputContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;
 
 const InputLabel = styled.div`
-    font-size: 13px;
-    color: #616161;
+  font-size: 13px;
+  color: #616161;
 
-    font-weight: 600;
+  font-weight: 600;
 `;
 
 const StyledInput = styled.input`
-    width: 336px;
-    height: 50px;
+  width: 336px;
+  height: 50px;
 
-    outline: none;
-    border-radius: 8px;
-    background-color: white;
-    border: 1px solid #9E9E9E;
+  outline: none;
+  border-radius: 8px;
+  background-color: white;
+  border: 1px solid #9e9e9e;
 
-    padding: 0 10px;
-    box-sizing: border-box;
-    font-size: 16px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  font-size: 16px;
 `;
 
 const TagContainer = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 `;
 
 const Tag = styled.div`
-    width: fit-content;
-    height: fit-content;
+  width: fit-content;
+  height: fit-content;
 
-    padding: 10px 10px;
-    background-color: black;
-    color: white;
+  padding: 10px 10px;
+  background-color: black;
+  color: white;
 
-    border-radius: 999px;
-    background-color: rgba(0, 56, 255, 0.04);
-    border: 1px solid rgba(0, 56, 255, 0.5);
-    color: rgba(0, 56, 255, 0.5);
+  border-radius: 999px;
+  background-color: rgba(0, 56, 255, 0.04);
+  border: 1px solid rgba(0, 56, 255, 0.5);
+  color: rgba(0, 56, 255, 0.5);
 `;
 
 const SubmitBtn = styled.button`
-    width: 336px;
+  width: 336px;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    padding: 15px 10px;
-    font-size: 15px;
-    margin-top: 44px;
+  padding: 15px 10px;
+  font-size: 15px;
+  margin-top: 44px;
 
-    border-radius: 8px;
-    
-    color: white;
-    background-color: #809CFF;
+  border-radius: 8px;
+
+  color: white;
+  background-color: #809cff;
 `;
