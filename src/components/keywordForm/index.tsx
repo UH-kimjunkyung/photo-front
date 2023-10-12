@@ -23,15 +23,13 @@ const KeywordForm = () => {
 
   const getGPTres = async () => {
     try {
-      console.log("발사");
       setIsLoading(true);
       const url = `http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/chat/pose/?text=${keyword} 과 함께 사진을 찍으려고 하는데 좋은 자세나 포즈좀 추천해줘 부연설명 덧붙이지말아줘 그냥 4가지만 말해줘~`;
 
       const res = await axios.get(url);
-      console.log(res);
 
-      setGptresData(res.data);
-      console.log(res.data);
+      setGptresData(res.data.data.message);
+      console.log(res.data.data.message);
       if (res) {
         setIsLoading(false);
         replace("/camera");
@@ -59,7 +57,7 @@ const KeywordForm = () => {
       <InputContainer>
         <InputLabel>추천 키워드</InputLabel>
         <TagContainer>
-          {Array.from(["둘이서", "셋이서", "짱구네컷", "스폰지밥"]).map((e) => {
+          {Array.from(["둘이서", "셋이서", "가족", "연인"]).map((e) => {
             return (
               <Tag
                 key={e}

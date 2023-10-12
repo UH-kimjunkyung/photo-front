@@ -6,20 +6,29 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import * as I from "assets";
 import { AiButton } from "components";
+import useStore from "Stores/StoresContainer";
 
 const videoConstraints = {
-  width: 1520,
-  height: 860,
+  width: 910,
+  height: 494,
   facingMode: "user",
 };
 
 const WebcamComponent = () => {
+  const { gptresData } = useStore();
   const webcamRef = useRef<Webcam>(null);
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageTitle, setImgTitle] = useState("첫번째");
+  const [title, setTitle] = useState(gptresData);
+  const [responseImg, setResponseImg] = useState<string[]>([]);
   const { replace } = useRouter();
-
+  const steps = title.split("\n");
+  const step1 = steps[0];
+  const step2 = steps[1];
+  const step3 = steps[2];
+  const step4 = steps[3];
+  const [desc, setDesc] = useState(step1);
   const capture = useCallback(async () => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
@@ -35,16 +44,20 @@ const WebcamComponent = () => {
       if (currentImageIndex < 4) {
         switch (currentImageIndex) {
           case 0:
-            setImgTitle("첫번째");
+            setImgTitle("두번째");
+            setDesc(step2);
             break;
           case 1:
-            setImgTitle("두번째");
+            setImgTitle("세번째");
+            setDesc(step3);
             break;
           case 2:
-            setImgTitle("세번째");
+            setImgTitle("네번째");
+            setDesc(step4);
             break;
           case 3:
             setImgTitle("네번째");
+            setDesc(step4);
             break;
           default:
             setImgTitle("");
@@ -85,11 +98,15 @@ const WebcamComponent = () => {
         }
       );
 
-      console.log("Response:", response);
-
       if (response.status === 200) {
-        console.log("Images uploaded successfully!");
-        replace("/frame");
+        const newResponseImg = [];
+
+        for (let i = 0; i < 4; i++) {
+          newResponseImg[i] = response.data.data[i];
+        }
+
+        setImgUrl([...newResponseImg]);
+        console.log(imgUrl);
       } else {
         console.error("Failed to upload images.");
       }
@@ -97,12 +114,18 @@ const WebcamComponent = () => {
       console.error("Network error:", error);
     }
   };
+  const { imgUrl, setImgUrl } = useStore();
+  useEffect(() => {
+    if (imgUrl[0]) {
+      replace("/frame");
+    }
+  }, [imgUrl]);
 
   return (
     <S.WebcamComponent>
       <S.TitleBox>
         <S.Title>{imageTitle} 포즈</S.Title>
-        <S.Text>두 손을 모아 하트 모양을 만들어 보세요 !</S.Text>
+        <S.Text>{desc}</S.Text>
       </S.TitleBox>
       <div>
         <Webcam
@@ -120,16 +143,34 @@ const WebcamComponent = () => {
         <S.Text onClick={sendImages}>사진 보내기</S.Text>
       </S.ButtonContainer>
       <S.CaptureImg>
-        {capturedImages.map((image, index) => (
-          <S.ImgContainer key={index}>
-            <Image
-              width={200}
-              height={100}
-              src={image}
-              alt={`Screenshot ${index}`}
-            />
-          </S.ImgContainer>
-        ))}
+        <S.First>
+          {capturedImages.map((image, index) =>
+            index === 0 || index === 1 ? (
+              <S.ImgContainer key={index}>
+                <Image
+                  width={117}
+                  height={117}
+                  src={image}
+                  alt={`Screenshot ${index}`}
+                />
+              </S.ImgContainer>
+            ) : null
+          )}
+        </S.First>
+        <S.Second>
+          {capturedImages.map((image, index) =>
+            index === 2 || index === 3 ? (
+              <S.SecondImgContainer key={index}>
+                <Image
+                  width={117}
+                  height={117}
+                  src={image}
+                  alt={`Screenshot ${index}`}
+                />
+              </S.SecondImgContainer>
+            ) : null
+          )}
+        </S.Second>
       </S.CaptureImg>
     </S.WebcamComponent>
   );

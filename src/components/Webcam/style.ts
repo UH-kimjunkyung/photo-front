@@ -12,18 +12,17 @@ export const WebcamComponent = styled.div`
 
 export const CaptureImg = styled.div`
   position: absolute;
-  top: 100px;
-  left: 0px;
-  width: 230px;
-  height: 430px;
+  bottom: 100px;
+  right: 100px;
+  width: 280px;
+  height: 280px;
   display: flex;
-  flex-direction: column;
   border-radius: 12px;
-  background: #fff;
   box-shadow: 0px 4px 30px 0px rgba(112, 144, 176, 0.08);
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: wrap;
 `;
 
 export const ButtonContainer = styled.div`
@@ -32,6 +31,8 @@ export const ButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  top: 100px;
 `;
 
 export const CameraButton = styled.div`
@@ -46,7 +47,34 @@ export const CameraButton = styled.div`
   cursor: pointer;
 `;
 
-export const ImgContainer = styled.div``;
+export const ImgContainer = styled.div`
+  width: 132px;
+  height: 132px;
+  border-radius: 4px;
+  border: 7px solid #fff;
+`;
+
+export const SecondImgContainer = styled.div`
+  width: 132px;
+  height: 132px;
+  border-radius: 4px;
+  border: 7px solid #fff;
+`;
+export const Second = styled.div`
+  width: 280px;
+  height: 132px;
+  justify-content: space-between;
+  position: absolute;
+  top: 220px;
+  display: flex;
+`;
+export const First = styled.div`
+  width: 280px;
+  height: 132px;
+  justify-content: space-between;
+  position: absolute;
+  display: flex;
+`;
 export const TitleBox = styled.div`
   width: 408px;
   height: 90px;

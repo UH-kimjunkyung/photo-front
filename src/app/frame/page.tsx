@@ -1,22 +1,27 @@
 "use client";
-
-
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { FrameTemplate, ImageFrame } from "components";
+import axios from "axios";
+import { FrameTemplate, ImageFrame, AiButton } from "components";
+import useStore from "Stores/StoresContainer";
 
 const Frame = () => {
   return (
     <Container>
       <FrameTemplate />
       <ImageFrame />
-      <ButtonContainer>
-        <SubmitBtn>완료</SubmitBtn>
-      </ButtonContainer>
+      <ButtonContainer />
     </Container>
   );
 };
 
 export default Frame;
+
+const ImageContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+`;
 
 const Container = styled.div`
   width: 100vw;
@@ -33,7 +38,7 @@ const Container = styled.div`
   box-sizing: border-box;
 
   background-color: #f5f5f5;
-  font-family: Pretendard;
+  font-family: "Pretendard";
 `;
 
 const ButtonContainer = styled.div`
@@ -59,4 +64,3 @@ const SubmitBtn = styled.button`
     transform: scale(0.97);
   }
 `;
-

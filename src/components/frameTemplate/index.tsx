@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import useStore from "Stores/StoresContainer";
+import { AiButton } from "components";
 
 const FrameTemplate = () => {
   const { frameStyle, setFrameStyle } = useStore();
@@ -64,10 +65,6 @@ const FrameTemplate = () => {
           </TemplateContainer>
         );
       })}
-      <AIFilterContainer>
-        <ImgTemplate src="/static/template5.png" />
-        <LabelText>AI로 변환</LabelText>
-      </AIFilterContainer>
     </Container>
   );
 };

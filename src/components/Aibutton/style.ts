@@ -5,9 +5,16 @@ export const AiButton = styled.div`
   width: 74px;
   border-radius: 100%;
   cursor: pointer;
+  background-color: black;
+  position: absolute;
+  top: 634px;
+  left: 423px;
 `;
 
 export const AiButtonTitle = styled.div`
+  position: absolute;
+  top: 250px;
+  left: 1000px;
   color: #809cff;
 
   font-family: Inter;
