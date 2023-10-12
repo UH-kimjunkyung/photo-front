@@ -156,6 +156,13 @@ const Tag = styled.div`
   background-color: rgba(0, 56, 255, 0.04);
   border: 1px solid rgba(0, 56, 255, 0.5);
   color: rgba(0, 56, 255, 0.5);
+
+  cursor: pointer;
+
+  transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  &:active {
+    transform: scale(0.9);
+  }
 `;
 
 const SubmitBtn = styled.button`
