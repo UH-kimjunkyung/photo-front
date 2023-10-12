@@ -14,7 +14,7 @@ const AiButton: React.FC = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "https://snap.team-alt.com/v2/image/conversion?image=http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/image/download/preview/4c1df73d-f486-4b17-b2d0-8bea9d822887&text=anime"
+        "https://snap.team-alt.com/v2/image/conversion?image=https://snap.team-alt.com/v2/image/download/preview/4c1df73d-f486-4b17-b2d0-8bea9d822887&text=anime"
       );
 
       console.log("Response:", response);
