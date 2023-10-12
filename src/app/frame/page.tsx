@@ -1,6 +1,5 @@
 "use client";
 
-
 import styled from "@emotion/styled";
 import { FrameTemplate, ImageFrame } from "components";
 
@@ -33,7 +32,6 @@ const Container = styled.div`
   box-sizing: border-box;
 
   background-color: #f5f5f5;
-  font-family: Pretendard;
 `;
 
 const ButtonContainer = styled.div`
@@ -59,4 +57,3 @@ const SubmitBtn = styled.button`
     transform: scale(0.97);
   }
 `;
-
