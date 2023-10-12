@@ -1,5 +1,5 @@
 "use client";
-import { Header, WebcamComponent } from "components";
+import { WebcamComponent } from "components";
 import * as S from "styles/style";
 
 export default function Home() {

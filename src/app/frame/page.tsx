@@ -1,5 +1,6 @@
 "use client";
 
+
 import styled from "@emotion/styled";
 import { FrameTemplate, ImageFrame } from "components";
 
@@ -58,3 +59,4 @@ const SubmitBtn = styled.button`
     transform: scale(0.97);
   }
 `;
+
