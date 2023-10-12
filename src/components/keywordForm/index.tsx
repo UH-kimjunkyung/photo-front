@@ -1,7 +1,11 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
+import { css } from "@emotion/react";
+
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import useStore from "Stores/StoresContainer";
+
 import Lottie from "lottie-react";
 import LoadingAnimation from "assets/lottie/loadingAnimation.json";
 
@@ -9,6 +13,7 @@ const KeywordForm = () => {
   const { gptresData, setGptresData } = useStore();
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const defaultOptions = {
     loop: true,
@@ -33,6 +38,7 @@ const KeywordForm = () => {
       if (res) {
         setIsLoading(false);
       }
+      router.push("/camera");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -70,7 +76,7 @@ const KeywordForm = () => {
           })}
         </TagContainer>
       </InputContainer>
-      <SubmitBtn onClick={getGPTres}>
+      <SubmitBtn load={isLoading} onClick={getGPTres}>
         {isLoading ? (
           <Lottie {...defaultOptions} style={{ width: 80, height: 18 }} />
         ) : (
@@ -138,6 +144,13 @@ const StyledInput = styled.input`
   padding: 0 10px;
   box-sizing: border-box;
   font-size: 16px;
+
+  transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+
+  &:focus {
+    border: 2px solid #809cff;
+    transform: scale(1.015);
+  }
 `;
 
 const TagContainer = styled.div`
@@ -167,8 +180,10 @@ const Tag = styled.div`
   }
 `;
 
-const SubmitBtn = styled.button`
+const SubmitBtn = styled.button<{ load: boolean }>`
   width: 336px;
+
+  position: relative;
 
   display: flex;
   align-items: center;
@@ -182,4 +197,18 @@ const SubmitBtn = styled.button`
 
   color: white;
   background-color: #809cff;
+
+  ${({ load }) =>
+    load
+      ? css`
+          &::before {
+            content: "포즈 수집 중입니다...";
+            position: absolute;
+            font-size: 13px;
+            left: 0;
+            top: -20px;
+            color: #494949;
+          }
+        `
+      : ""}
 `;
