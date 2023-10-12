@@ -5,6 +5,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import * as I from "assets";
+import { AiButton } from "components";
 
 const videoConstraints = {
   width: 1520,
@@ -69,7 +70,7 @@ const WebcamComponent = () => {
         const blobImage = await fetch(capturedImages[i]).then((response) =>
           response.blob()
         );
-        formData.append(`image${i}`, blobImage, `image${i}.jpg`);
+        formData.append(`image${i + 1}`, blobImage, `image${i}.jpg`);
       }
     }
 

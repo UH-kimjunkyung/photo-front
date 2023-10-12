@@ -1,11 +1,14 @@
 "use client";
 
-import * as S from "styles/style";
+import AiButton from "components/Aibutton";
+import type { NextPage } from "next";
 
-export default function Home() {
+const Frame: NextPage = () => {
   return (
-    <div>
-      <S.CameraPage></S.CameraPage>
-    </div>
+    <>
+      <AiButton />
+    </>
   );
-}
+};
+
+export default Frame;

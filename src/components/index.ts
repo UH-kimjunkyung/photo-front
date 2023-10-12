@@ -1,2 +1,2 @@
-export { default as Header } from "./Header";
 export { default as WebcamComponent } from "./Webcam";
+export { default as AiButton } from "./Aibutton";
