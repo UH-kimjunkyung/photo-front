@@ -1,42 +1,38 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import axios from "axios";
-import { getApikey } from "apis/getApikey";
 import useStore from "Stores/StoresContainer";
+import Lottie from "lottie-react";
+import LoadingAnimation from "assets/lottie/loadingAnimation.json";
 
 const KeywordForm = () => {
   const { gptresData, setGptresData } = useStore();
   const [keyword, setKeyword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: LoadingAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
 
   const getGPTres = async () => {
-    const Token = await getApikey();
-    console.log(Token);
-
     try {
-      const url = "https://api.openai.com/v1/chat/completions";
+      console.log("발사");
+      setIsLoading(true);
+      const url = `http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/chat/pose/?text=${keyword} 과 함께 사진을 찍으려고 하는데 좋은 자세나 포즈좀 추천해줘 부연설명 덧붙이지말아줘 그냥 4가지만 말해줘~`;
 
-      const requestBody = {
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: "You are a helpful assistant." },
-          {
-            role: "user",
-            content: `${keyword} 사진을 찍을건데 재밌거나 예쁜 포즈 4가지 추천해줘 설명하지 말고 그냥 단어만 4개 알려줘 설명 덧붙이지마 번호도쓰지마 쉼표로 구분해서 답해줘`,
-          },
-        ],
-      };
+      const res = await axios.get(url);
+      console.log(res);
 
-      const headers = {
-        Authorization: `Bearer ${Token}`,
-        "Content-Type": "application/json",
-      };
-
-      const response = await axios.post(url, requestBody, { headers });
-      const gptresTextArray =
-        response.data.choices[0].message.content.split("\n");
-
-      setGptresData(gptresTextArray);
-      console.log(gptresData);
+      setGptresData(res.data);
+      console.log(res.data);
+      if (res) {
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -74,7 +70,13 @@ const KeywordForm = () => {
           })}
         </TagContainer>
       </InputContainer>
-      <SubmitBtn onClick={getGPTres}>확인</SubmitBtn>
+      <SubmitBtn onClick={getGPTres}>
+        {isLoading ? (
+          <Lottie {...defaultOptions} style={{ width: 80, height: 18 }} />
+        ) : (
+          "확인"
+        )}
+      </SubmitBtn>
     </Container>
   );
 };
