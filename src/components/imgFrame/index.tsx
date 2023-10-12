@@ -3,26 +3,29 @@ import { useEffect, useState } from "react";
 import { getImage } from "apis/getImage";
 import useStore from "Stores/StoresContainer";
 import { css } from "@emotion/react";
+import { useDidMountEffect } from "hooks/useDidMountEffect";
 
 const ImgFrame = () => {
-  const [imageData, setImageData] = useState<any>();
+  const [imageData, setImageData] = useState<any>([]);
   const { frameStyle, setFrameStyle } = useStore();
 
-  const getImages = async () => {
-    const res = await getImage();
-
-    setImageData(res);
-    console.log(res);
+  const getAllImages = async () => {
+    for (const _ of [1, 2, 3, 4]) {
+      const res = await getImage();
+      setImageData((prev: any) => [...prev, res]);
+    }
   };
 
-  useEffect(() => {
-    getImages();
+  useDidMountEffect(() => {
+    getAllImages();
   }, []);
 
   return (
     <Container data={frameStyle.data} type={frameStyle.type}>
       <ImgContainer>
-        <Img src={imageData} />
+        {imageData.map((e: string) => {
+          return <Img src={e} key={e} />;
+        })}
       </ImgContainer>
     </Container>
   );

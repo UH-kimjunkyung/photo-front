@@ -32,14 +32,16 @@ const FrameTemplate = () => {
       <Title>프레임 선택하기</Title>
       {templateData.map((e) => {
         return (
-          <TemplateContainer>
+          <TemplateContainer key={e.data1}>
             {e.type1 === "img" ? (
               <ImgTemplate
+                key={e.data1}
                 src={e.data1}
                 onClick={() => setFrameStyle({ data: e.data1, type: e.type1 })}
               />
             ) : (
               <ColorTemplate
+                key={e.data1}
                 templateType={e.type1}
                 data={e.data1}
                 onClick={() => setFrameStyle({ data: e.data1, type: e.type1 })}
@@ -47,11 +49,13 @@ const FrameTemplate = () => {
             )}
             {e.type2 === "img" ? (
               <ImgTemplate
+                key={e.data2}
                 src={e.data2}
                 onClick={() => setFrameStyle({ data: e.data2, type: e.type2 })}
               />
             ) : (
               <ColorTemplate
+                key={e.data2}
                 templateType={e.type2}
                 data={e.data2}
                 onClick={() => setFrameStyle({ data: e.data2, type: e.type2 })}
