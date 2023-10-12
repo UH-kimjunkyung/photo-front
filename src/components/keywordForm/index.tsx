@@ -4,11 +4,13 @@ import axios from "axios";
 import useStore from "Stores/StoresContainer";
 import Lottie from "lottie-react";
 import LoadingAnimation from "assets/lottie/loadingAnimation.json";
+import { useRouter } from "next/navigation";
 
 const KeywordForm = () => {
   const { gptresData, setGptresData } = useStore();
   const [keyword, setKeyword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const { replace } = useRouter();
 
   const defaultOptions = {
     loop: true,
@@ -32,6 +34,7 @@ const KeywordForm = () => {
       console.log(res.data);
       if (res) {
         setIsLoading(false);
+        replace("/camera");
       }
     } catch (error) {
       console.error("Error:", error);

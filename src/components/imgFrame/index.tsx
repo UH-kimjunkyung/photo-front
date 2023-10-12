@@ -27,6 +27,7 @@ const ImgFrame = () => {
           return <Img src={e} key={e} />;
         })}
       </ImgContainer>
+      <Title>SNAP</Title>
     </Container>
   );
 };
@@ -63,6 +64,8 @@ const ImgContainer = styled.div`
   grid-template-rows: 1fr 1fr;
   grid-template-columns: 1fr 1fr;
   grid-gap: 32px;
+  position: relative;
+  right: 50px;
 `;
 
 const Img = styled.img`
@@ -71,4 +74,15 @@ const Img = styled.img`
 
   border-radius: 8px;
   background-size: cover;
+`;
+
+const Title = styled.div`
+  transform: rotate(-90deg);
+  color: black;
+
+  font-family: Inter;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 `;
