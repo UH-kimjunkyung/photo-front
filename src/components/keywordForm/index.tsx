@@ -51,6 +51,7 @@ const KeywordForm = () => {
       <InputContainer>
         <InputLabel>키워드</InputLabel>
         <StyledInput
+          value={keyword}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setKeyword(e.target.value);
           }}
@@ -60,7 +61,16 @@ const KeywordForm = () => {
         <InputLabel>추천 키워드</InputLabel>
         <TagContainer>
           {Array.from(["둘이서", "셋이서", "짱구네컷", "스폰지밥"]).map((e) => {
-            return <Tag key={e}>{e}</Tag>;
+            return (
+              <Tag
+                key={e}
+                onClick={() => {
+                  setKeyword(e);
+                }}
+              >
+                {e}
+              </Tag>
+            );
           })}
         </TagContainer>
       </InputContainer>
@@ -80,7 +90,7 @@ const Container = styled.div`
   gap: 24px;
   border-radius: 12px;
 
-  box-shadow: 0 4px 30px 0 rgba(112, 144, 176, 0.08);
+  box-shadow: 0 4px 30px 0 rgba(112, 144, 176, 0.1);
 `;
 
 const TitleContainer = styled.div`
