@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import * as I from "assets";
 import { AiButton } from "components";
+import useStore from "Stores/StoresContainer";
 
 const videoConstraints = {
   width: 1520,
@@ -19,6 +20,7 @@ const WebcamComponent = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageTitle, setImgTitle] = useState("첫번째");
   const { replace } = useRouter();
+  const { uuid, setUuid } = useStore();
 
   const capture = useCallback(async () => {
     const imageSrc = webcamRef.current?.getScreenshot();
@@ -65,6 +67,7 @@ const WebcamComponent = () => {
     }
 
     const formData = new FormData();
+
     for (let i = 0; i < 4; i++) {
       if (capturedImages[i]) {
         const blobImage = await fetch(capturedImages[i]).then((response) =>
@@ -89,6 +92,11 @@ const WebcamComponent = () => {
 
       if (response.status === 200) {
         console.log("Images uploaded successfully!");
+        const uuidArray = response.data.data.map((e: any) => {
+          uuid.concat(e.uuid);
+        });
+        setUuid(uuidArray);
+        console.log(uuid);
         replace("/frame");
       } else {
         console.error("Failed to upload images.");
