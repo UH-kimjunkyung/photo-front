@@ -5,6 +5,8 @@ interface StoreType {
   aiImgUrl: any[];
   setAiImgUrl: (aiImgUrl: string[]) => void;
   setImgUrl: (imgUrl: string[]) => void;
+  preview: any[];
+  setPreview: (preview: string[]) => void;
   gptresData: string;
   setGptresData: (gptresData: string) => void;
 
@@ -15,6 +17,8 @@ interface StoreType {
 const useStore = create<StoreType>((set) => ({
   imgUrl: [],
   aiImgUrl: [],
+  preview: [],
+  setPreview: (preview) => set({ preview }),
 
   setAiImgUrl: (aiImgUrl) => set({ aiImgUrl }),
   setImgUrl: (imgUrl) => set({ imgUrl }),

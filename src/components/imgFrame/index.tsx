@@ -9,12 +9,13 @@ import { AiButton } from "components";
 import { useDidMountEffect } from "hooks/useDidMountEffect";
 
 const ImgFrame = () => {
-  const { imgUrl, aiImgUrl } = useStore();
+  const { imgUrl, aiImgUrl, preview } = useStore();
   const [images, setImages] = useState<string[]>([]);
   const [aiImages, setAiImages] = useState<string[]>([]);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
+    setInterval(() => 10000);
     const getImages = async () => {
       try {
         const newImages = [];
@@ -37,29 +38,6 @@ const ImgFrame = () => {
   }, []);
 
   const [loading, setLoading] = useState(false);
-  const getAiImages = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://snap.team-alt.com/v2/image/conversion?image=http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/image/download/preview/${imgUrl[0].uuid}&text=anime`
-      );
-
-      console.log("Response:", response);
-
-      if (response.status === 200) {
-        setLoading(false);
-        setSuccess(true);
-        alert("이미지 요청에 성공하였습니다");
-      } else {
-        console.error("Failed to upload images.");
-      }
-
-      setAiImages(response.data.data.images);
-    } catch (error) {
-      setSuccess(false);
-      console.error("Network error:", error);
-    }
-  };
 
   const { frameStyle, setFrameStyle } = useStore();
 
@@ -80,7 +58,7 @@ const ImgFrame = () => {
           </>
         ) : (
           <>
-            {images.map((e: string, index) => {
+            {preview.map((e: string, index) => {
               if (index >= 0) {
                 return <Img src={e} key={e} />;
               } else {
@@ -90,9 +68,7 @@ const ImgFrame = () => {
           </>
         )}
       </ImgContainer>
-      <div onClick={getAiImages}>
-        <AiButton />
-      </div>
+
       <Title data={frameStyle.data} type={frameStyle.type}>
         SNAP
       </Title>
@@ -101,6 +77,24 @@ const ImgFrame = () => {
 };
 
 export default ImgFrame;
+const Color = styled.div`
+  width: 74px;
+  min-height: 74px;
+  display: flex;
+
+  border-radius: 999px;
+
+  background-color: red;
+  position: absolute;
+  box-shadow: 0 4px 20px 0 rgba(112, 144, 176, 0.4);
+  top: 532px;
+  left: 425px;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.9);
+  }
+`;
 
 const Container = styled.div<{ data: string; type: string }>`
   width: 1120px;

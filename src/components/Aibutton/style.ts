@@ -8,7 +8,7 @@ export const AiButton = styled.div`
   background-color: black;
   position: absolute;
   top: 634px;
-  left: 423px;
+  left: 368px;
 `;
 
 export const AiButtonTitle = styled.div`

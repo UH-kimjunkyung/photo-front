@@ -15,7 +15,7 @@ const videoConstraints = {
 };
 
 const WebcamComponent = () => {
-  const { gptresData } = useStore();
+  const { gptresData, preview, setPreview } = useStore();
   const webcamRef = useRef<Webcam>(null);
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -29,6 +29,7 @@ const WebcamComponent = () => {
   const step3 = steps[2];
   const step4 = steps[3];
   const [desc, setDesc] = useState(step1);
+
   const capture = useCallback(async () => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (imageSrc) {
@@ -89,7 +90,7 @@ const WebcamComponent = () => {
 
     try {
       const response = await axios.post(
-        "http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/image/upload/",
+        "https://snap.team-alt.com/v2/image/upload/",
         formData,
         {
           headers: {
@@ -113,6 +114,7 @@ const WebcamComponent = () => {
     } catch (error) {
       console.error("Network error:", error);
     }
+    setPreview(capturedImages);
   };
   const { imgUrl, setImgUrl } = useStore();
   useEffect(() => {
