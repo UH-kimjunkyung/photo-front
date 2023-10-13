@@ -24,7 +24,7 @@ const KeywordForm = () => {
   const getGPTres = async () => {
     try {
       setIsLoading(true);
-      const url = `http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/chat/pose/?text=${keyword} 과 함께 사진을 찍으려고 하는데 좋은 자세나 포즈좀 추천해줘 부연설명 덧붙이지말아줘 그냥 4가지만 말해줘~`;
+      const url = `https://snap.team-alt.com/v2/chat/pose/?text=${keyword} 과 함께 사진을 찍으려고 하는데 좋은 자세나 포즈좀 추천해줘 부연설명 덧붙이지말아줘 그냥 4가지만 말해줘~`;
 
       const res = await axios.get(url);
 
