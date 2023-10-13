@@ -89,7 +89,7 @@ const WebcamComponent = () => {
 
     try {
       const response = await axios.post(
-        "http://3.34.22.93:8080/v2/image/upload/",
+        "http://uh-alb-2127268112.ap-northeast-2.elb.amazonaws.com/v2/image/upload/",
         formData,
         {
           headers: {
