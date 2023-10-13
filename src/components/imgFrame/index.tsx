@@ -9,13 +9,13 @@ import { AiButton } from "components";
 import { useDidMountEffect } from "hooks/useDidMountEffect";
 
 const ImgFrame = () => {
-  const { imgUrl, aiImgUrl, preview } = useStore();
+  const { imgUrl, aiImgUrl, preview, visible } = useStore();
   const [images, setImages] = useState<string[]>([]);
   const [aiImages, setAiImages] = useState<string[]>([]);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    setInterval(() => 10000);
+    setInterval(() => 5000);
     const getImages = async () => {
       try {
         const newImages = [];
@@ -38,6 +38,52 @@ const ImgFrame = () => {
   }, []);
 
   const [loading, setLoading] = useState(false);
+  const getAiImages = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://snap.team-alt.com/v2/image/conversion?image=https://snap.team-alt.com/v2/image/download/preview/${imgUrl[0].uuid}&text=anime`
+      );
+
+      console.log("Response:", response);
+
+      if (response.status === 200) {
+        setLoading(false);
+        setSuccess(true);
+        alert("이미지 요청에 성공하였습니다");
+      } else {
+        console.error("Failed to upload images.");
+      }
+
+      setAiImages(response.data.data.images);
+    } catch (error) {
+      setSuccess(false);
+      console.error("Network error:", error);
+    }
+  };
+  const getAi2dImg = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(
+        `https://snap.team-alt.com/v2/image/conversion?image=https://snap.team-alt.com/v2/image/download/preview/${imgUrl[0].uuid}&text=2d style, pixel`
+      );
+
+      console.log("Response:", response);
+
+      if (response.status === 200) {
+        setLoading(false);
+        setSuccess(true);
+        alert("이미지 요청에 성공하였습니다");
+      } else {
+        console.error("Failed to upload images.");
+      }
+
+      setAiImages(response.data.data.images);
+    } catch (error) {
+      setSuccess(false);
+      console.error("Network error:", error);
+    }
+  };
 
   const { frameStyle, setFrameStyle } = useStore();
 
@@ -68,7 +114,18 @@ const ImgFrame = () => {
           </>
         )}
       </ImgContainer>
-
+      {visible && (
+        <>
+          <div onClick={getAiImages}>
+            <AiButton />
+          </div>
+          <div onClick={getAi2dImg}>
+            <Color>
+              <img width={74} height={74} src="imgs/어몽어스.webp" />
+            </Color>
+          </div>
+        </>
+      )}
       <Title data={frameStyle.data} type={frameStyle.type}>
         SNAP
       </Title>
@@ -88,7 +145,7 @@ const Color = styled.div`
   position: absolute;
   box-shadow: 0 4px 20px 0 rgba(112, 144, 176, 0.4);
   top: 532px;
-  left: 425px;
+  left: 395px;
   cursor: pointer;
 
   &:active {

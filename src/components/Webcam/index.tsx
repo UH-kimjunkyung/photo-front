@@ -127,7 +127,7 @@ const WebcamComponent = () => {
     <S.WebcamComponent>
       <S.TitleBox>
         <S.Title>{imageTitle} 포즈</S.Title>
-        <S.Text>{desc}</S.Text>
+        <S.TextBox>{desc}</S.TextBox>
       </S.TitleBox>
       <div>
         <Webcam

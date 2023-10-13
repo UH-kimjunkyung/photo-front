@@ -8,73 +8,22 @@ import ReactToPrint from "react-to-print";
 
 const Frame = () => {
   const componentRef = useRef(null);
-  const { imgUrl, aiImgUrl, preview } = useStore();
+  const { imgUrl, aiImgUrl, preview, setVisible, visible } = useStore();
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
   const [aiImages, setAiImages] = useState<string[]>([]);
-  const getAiImages = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://snap.team-alt.com/v2/image/conversion?image=https://snap.team-alt.com/v2/image/download/preview/${imgUrl[0].uuid}&text=anime`
-      );
 
-      console.log("Response:", response);
-
-      if (response.status === 200) {
-        setLoading(false);
-        setSuccess(true);
-        alert("이미지 요청에 성공하였습니다");
-      } else {
-        console.error("Failed to upload images.");
-      }
-
-      setAiImages(response.data.data.images);
-    } catch (error) {
-      setSuccess(false);
-      console.error("Network error:", error);
-    }
-  };
-  const getAi2dImg = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `https://snap.team-alt.com/v2/image/conversion?image=https://snap.team-alt.com/v2/image/download/preview/${imgUrl[0].uuid}&text=2d style, pixel`
-      );
-
-      console.log("Response:", response);
-
-      if (response.status === 200) {
-        setLoading(false);
-        setSuccess(true);
-        alert("이미지 요청에 성공하였습니다");
-      } else {
-        console.error("Failed to upload images.");
-      }
-
-      setAiImages(response.data.data.images);
-    } catch (error) {
-      setSuccess(false);
-      console.error("Network error:", error);
-    }
-  };
   return (
     <Container>
       <FrameTemplate />
-      <ReactToPrint
-        trigger={() => <Print>프린트하기</Print>}
-        content={() => componentRef.current}
-      />
+      <div onClick={() => setVisible(false)}>
+        <ReactToPrint
+          trigger={() => <Print>프린트하기</Print>}
+          content={() => componentRef.current}
+        />
+      </div>
       <div ref={componentRef}>
         <ImageFrame />
-      </div>
-      <div onClick={getAiImages}>
-        <AiButton />
-      </div>
-      <div onClick={getAi2dImg}>
-        <Color>
-          <img width={74} height={74} src="imgs/어몽어스.webp" />
-        </Color>
       </div>
       <ButtonContainer />
     </Container>

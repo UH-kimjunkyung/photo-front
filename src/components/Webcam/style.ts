@@ -76,7 +76,7 @@ export const First = styled.div`
   display: flex;
 `;
 export const TitleBox = styled.div`
-  width: 408px;
+  width: 608px;
   height: 90px;
   display: flex;
   align-items: center;
@@ -90,6 +90,16 @@ export const Title = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+`;
+export const TextBox = styled.div`
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Inter;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 200;
+  line-height: normal;
+  width: 500px;
+  text-align: center;
 `;
 export const Text = styled.div`
   color: rgba(255, 255, 255, 0.8);
