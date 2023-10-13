@@ -108,6 +108,7 @@ const Title = styled.div`
   font-weight: 800;
   font-size: 24px;
   color: #191919;
+  font-family: Pretendard;
 `;
 
 const SubTitle = styled.div`

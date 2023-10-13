@@ -93,7 +93,9 @@ const ImgFrame = () => {
       <div onClick={getAiImages}>
         <AiButton />
       </div>
-      <Title>SNAP</Title>
+      <Title data={frameStyle.data} type={frameStyle.type}>
+        SNAP
+      </Title>
     </Container>
   );
 };
@@ -156,9 +158,17 @@ const AiButtonTitle = styled.div`
   line-height: normal;
 `;
 
-const Title = styled.div`
+const Title = styled.div<{ data: string; type: string }>`
   transform: rotate(-90deg);
-  color: black;
+  ${({ data, type }) =>
+    type === "color"
+      ? css`
+          color: ${data};
+          filter: invert();
+        `
+      : css`
+          color: #9ccaff;
+        `}
 
   font-family: Inter;
   font-size: 36px;
