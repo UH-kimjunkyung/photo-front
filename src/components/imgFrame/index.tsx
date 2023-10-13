@@ -144,7 +144,7 @@ const Color = styled.div`
   background-color: red;
   position: absolute;
   box-shadow: 0 4px 20px 0 rgba(112, 144, 176, 0.4);
-  top: 532px;
+  top: 510px;
   left: 395px;
   cursor: pointer;
 
@@ -198,7 +198,7 @@ const AiImg = styled.div``;
 
 const AiButtonTitle = styled.div`
   position: absolute;
-  top: 250px;
+  top: 230px;
   left: 1000px;
   color: #809cff;
 

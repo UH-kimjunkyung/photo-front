@@ -7,7 +7,7 @@ export const AiButton = styled.div`
   cursor: pointer;
   background-color: black;
   position: absolute;
-  top: 634px;
+  top: 610px;
   left: 395px;
 `;
 
